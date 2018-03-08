@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background5"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="com.calculator.hide.vault.infoActivity">
+
+        <TextView
+            android:id="@+id/textView12"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:text="Calculator Hide Pro"
+            android:textColor="#fff"
+            android:textColorLink="#FFF"
+            android:textSize="30sp"
+            android:textStyle="bold|italic"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true" />
+
+        <TextView
+            android:id="@+id/textView13"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/textView12"
+            android:layout_marginTop="12dp"
+            android:text="Calculator hide pro is a fully functional calculator with basic arithmetic functions,In calculator hide pro you can hide all types of files, folders,music,videos or any other thing.The app also has functionality of viewing files from  your favourite app while the file remain hidden from file explorers or media players"
+            android:textAlignment="center"
+            android:textColor="@android:color/white"
+            android:textSize="25sp"
+            android:textStyle="italic" />
+
+        <TextView
+            android:id="@+id/textView14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/textView13"
+            android:layout_marginTop="10dp"
+            android:text="Calculator Hide Pro - developed by Infinite_Solutions(All Rights Reserved)"
+            android:textAlignment="center"
+            android:textColor="#fff"
+            android:textColorLink="#fff"
+            android:textSize="25sp"
+            android:textStyle="bold|italic" />
+
+        <Button
+            android:id="@+id/button10"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_below="@+id/textView14"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/border"
+            android:onClick="onClick"
+            android:text="Contact Us" />
+
+        <ImageView
+            android:id="@+id/imageView5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/button10"
+            android:layout_toLeftOf="@+id/button10"
+            android:layout_toStartOf="@+id/button10"
+            app:srcCompat="@drawable/contactusicon" />
+
+    </RelativeLayout>
+</ScrollView>

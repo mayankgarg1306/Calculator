@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background3"
+    android:orientation="vertical"
+    android:weightSum="10">
+    <GridView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/gridView"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:columnWidth="150dip"
+        android:gravity="center"
+        android:numColumns="2"
+        android:stretchMode="columnWidth"/>
+    <com.google.android.gms.ads.NativeExpressAdView
+        android:id="@+id/adView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        ads:adSize="340x250"
+        ads:adUnitId="@string/native_ad_unit_id">
+    </com.google.android.gms.ads.NativeExpressAdView>
+</LinearLayout>

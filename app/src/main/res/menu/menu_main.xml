@@ -1,0 +1,34 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+
+    tools:context="com.calculator.hide.myapplication.MainActivity">
+    <item
+        android:id="@+id/settings"
+        android:orderInCategory="100"
+        android:title="@string/Settings"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/feedback"
+        android:orderInCategory="101"
+        android:title="@string/feedback" />
+    <item
+        android:id="@+id/rateus"
+        android:icon="@android:color/background_dark"
+        android:orderInCategory="102"
+        android:title="@string/rateus" />
+    <item
+        android:id="@+id/appinfo"
+        android:orderInCategory="103"
+        android:title="@string/appinfo" />
+    <item
+        android:id="@+id/invite"
+        android:orderInCategory="103"
+        android:title="@string/invite" />
+    <item
+        android:id="@+id/exit"
+        android:orderInCategory="104"
+        android:title="@string/exit" />
+
+
+</menu>

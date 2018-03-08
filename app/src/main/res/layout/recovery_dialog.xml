@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginLeft="20dip"
+    android:layout_marginRight="20dip"
+    android:background="@drawable/border">
+
+    <TextView
+        android:id="@+id/textView15"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dip"
+        android:layout_marginTop="10dip"
+        android:text='Set a recovery pin by typing a 4 digit number, so that in case you forgot the password just type "9876543210" and press "=" on the calculator screen to set a new password after entering the Pin.'
+        android:background="@drawable/dialog_background"
+        android:textColor="#000"
+        android:textSize="18sp" />
+
+    <EditText
+        android:id="@+id/editText4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dip"
+        android:background="@android:drawable/editbox_background_normal"
+        android:ems="10"
+        android:hint="ENTER YOUR PIN"
+        android:inputType="numberPassword"
+        android:maxLength="4" />
+
+    <EditText
+        android:id="@+id/editText5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dip"
+        android:background="@android:drawable/editbox_background"
+        android:ems="10"
+        android:hint="CONFIRM YOUR PIN"
+        android:inputType="numberPassword"
+        android:maxLength="4" />
+</LinearLayout>
