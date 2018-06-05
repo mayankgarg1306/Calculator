@@ -10,9 +10,6 @@ import com.viksaa.sssplash.lib.model.ConfigSplash;
 
 public class Splash_screen extends AwesomeSplash {
 
-    Thread splashTread;
-    ImageView imageView;
-
     @Override
     public void initSplash(ConfigSplash configSplash) {
 

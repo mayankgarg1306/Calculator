@@ -15,11 +15,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -42,10 +42,42 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     double number3=0;
     TextView textView2;
     Button button;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+        SharedPreferences prefs = getSharedPreferences("prefs", MODE_PRIVATE);
+        boolean firstStart = prefs.getBoolean("firstStart", true);
+
+        if (firstStart) {
+            new AlertDialog.Builder(this)
+                    .setTitle("App Features/Change Logs")
+                    .setMessage("* Simple and Interactive Interface\n" +
+                                "* Smoothness Redefined...\n" +
+                                "* Retain password even on Reinstall \n" +
+                                "* Fixed Bugs  \n" +
+                                "* Restore hidden files on Reinstall \n" +
+                                "* Support hiding of all file formats\n" +
+                                "  and folders                        ")
+                    .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    })
+                    .create().show();
+
+            prefs = getSharedPreferences("prefs", MODE_PRIVATE);
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putBoolean("firstStart", false);
+            editor.apply();
+
+        }
+
+
         button=(Button)findViewById(R.id.buttoncl);
         button.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
@@ -179,6 +211,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
             else {
                 if(password.equals(editText.getText().toString())){
+
                     Intent i=new Intent(this,Main2Activity.class);
                     startActivity(i);
                 }
@@ -202,7 +235,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    private void change_password() {
+
+      private void change_password() {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
         LayoutInflater inflater = this.getLayoutInflater();
         final ViewGroup nullParent = null;

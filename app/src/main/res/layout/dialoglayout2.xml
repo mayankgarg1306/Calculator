@@ -32,4 +32,15 @@
         android:layout_gravity="center"
         android:layout_marginBottom="33dp"
         android:background="@drawable/cancel1" />
+
+    <Button
+        android:id="@+id/button11"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/cancel"
+        android:layout_marginEnd="35dp"
+        android:layout_marginRight="35dp"
+        android:layout_toLeftOf="@+id/cancel"
+        android:layout_toStartOf="@+id/cancel"
+        android:text="Force Restore" />
 </RelativeLayout>

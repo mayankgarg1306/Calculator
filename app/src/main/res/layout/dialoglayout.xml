@@ -22,7 +22,7 @@
 
         <TextView
             android:id="@+id/folder"
-            android:layout_width="wrap_content"
+            android:layout_width="0dip"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:textColor="#fff"
@@ -48,6 +48,7 @@
         android:layout_alignEnd="@+id/linearLayout"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:layout_alignRight="@+id/linearLayout"
         android:background="@drawable/rsz"
         android:onClick="onClickOk" />
@@ -59,6 +60,7 @@
         android:layout_alignLeft="@+id/linearLayout"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
         android:layout_alignStart="@+id/linearLayout"
         android:layout_alignTop="@+id/button"
         android:background="@drawable/cancel" />

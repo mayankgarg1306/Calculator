@@ -2,9 +2,10 @@
     <string name="app_name">Calculator</string>
     <string name="Settings">Change Password</string>
     <string name="feedback">Feedback</string>
-    <string name="rateus">Rate Us</string>
+    <string name="rateus">⭐ Rate Us⭐ </string>
     <string name="appinfo">App Info</string>
     <string name="exit">Exit</string>
+    <string name="video">Getting Bored</string>
     <string name="Resource1"><![CDATA[<-]]></string>
     <string name="contact_form">Contact Us</string>
     <string name="contact_form_name">Your Name</string>
@@ -12,7 +13,7 @@
     <string name="contact_form_subject">Subject</string>
     <string name="contact_form_message">Message</string>
     <string name="contact_form_button">Send Message</string>
-    <string name="contact_form_post_message">Please wait! We\'re sending your message to the support department...</string>
+    <string name="contact_form_post_message">Please wait! Sending your message to the Support Team...</string>
     <string name="contact_posted">Your message has been successfully delivered.</string>
     <string name="title_activity_settings">Settings</string>
     <string name="invite">Share the App</string>
@@ -96,14 +97,13 @@
 
     <string name="action_settings">Settings</string>
 
-    <string name="interstitial_ad_sample">Interstitial Ad Sample</string>
-    <string name="start_level">Level 1</string>
-    <string name="next_level">Next Level</string>
     <!-- -
         This is an ad unit ID for an interstitial test ad. Replace with your own interstitial ad unit id.
         For more information, see https://support.google.com/admob/answer/3052638
-    <!- -->
+<!- -->
     <string name="interstitial_ad_unit_id">ca-app-pub-2379169509846500/9157387415</string>
     <string name="banner_ad_unit_id">ca-app-pub-2379169509846500/5090065142</string>
-    <string name="native_ad_unit_id">ca-app-pub-2379169509846500/7274634531</string>
+    <string name="admob_app_id">ca-app-pub-2379169509846500~2590967308</string>
+    <string name="ad_unit_id">ca-app-pub-2379169509846500/2494157163</string>
+
 </resources>

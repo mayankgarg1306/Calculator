@@ -1,7 +1,9 @@
 package com.calculator.hide.vault;
 
+import android.Manifest;
 import android.app.ActivityManager;
 import android.app.Dialog;
+import android.app.backup.BackupManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -13,6 +15,7 @@ import android.os.Build;
 import android.os.Environment;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -35,16 +38,22 @@ import android.view.MenuItem;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+
 import com.google.android.gms.ads.InterstitialAd;
-import com.google.android.gms.appinvite.AppInviteInvitation;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.reward.RewardItem;
+import com.google.android.gms.ads.reward.RewardedVideoAd;
+import com.google.android.gms.ads.reward.RewardedVideoAdListener;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Main2Activity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
+public class Main2Activity extends AppCompatActivity  {
 
     @Override
     public void onPause() {
@@ -68,6 +77,8 @@ public class Main2Activity extends AppCompatActivity implements ActivityCompat.O
         }
         return false;
     }
+
+
     private static final int REQUEST_INVITE = 0;
     private InterstitialAd interstitial;
     Button buttonOpenDialog;
@@ -87,10 +98,15 @@ public class Main2Activity extends AppCompatActivity implements ActivityCompat.O
 
     ListView dialog_ListView;
     ListView listView;
+    ArrayAdapter listadapter;
+    ArrayAdapter listadapterhide;
+
+    RewardedVideoAd mRewardedVideoAd;
 
     String hiddenDirectory;
 
     File root=new File(Environment.getExternalStorageDirectory().getAbsolutePath());
+    File force_retrieve=new File(Environment.getExternalStorageDirectory().getAbsolutePath()+"/Calculator_Media");
     File curFolder=root;
     File selected;
     File hiddenfolder;
@@ -102,14 +118,26 @@ public class Main2Activity extends AppCompatActivity implements ActivityCompat.O
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
+
+        MobileAds.initialize(this, getString(R.string.admob_app_id));
+        mRewardedVideoAd = MobileAds.getRewardedVideoAdInstance(this);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        listadapter=new customlist(this, (ArrayList) fileList);
+        listadapterhide=new customlist(this, (ArrayList) fileList);
         buttonOpenDialog = (Button) findViewById(R.id.opendialog);
         buttonOpenDialog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showDialog(CUSTOM_DIALOG_ID);
+
+                if (ContextCompat.checkSelfPermission(Main2Activity.this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                        != PackageManager.PERMISSION_GRANTED) {
+                    request_permission();
+                } else {
+                    showDialog(CUSTOM_DIALOG_ID);
+                }
             }
         });
 
@@ -117,7 +145,13 @@ public class Main2Activity extends AppCompatActivity implements ActivityCompat.O
         unhide.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showDialog(CUSTOM_DIALOG);
+
+                if (ContextCompat.checkSelfPermission(Main2Activity.this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                        != PackageManager.PERMISSION_GRANTED) {
+                    request_permission();
+                }
+                else
+                    showDialog(CUSTOM_DIALOG);
             }
         });
 
@@ -125,6 +159,10 @@ public class Main2Activity extends AppCompatActivity implements ActivityCompat.O
         curFolder = root;
 
         hiddenfolder = new File(Environment.getExternalStorageDirectory().toString()+"/.data/.file/.drop/.hidden"+"/.ooooo");
+        File extrafolder = new File(Environment.getExternalStorageDirectory().toString()+"/.data/.data/.file/.drop/.hidden");
+        if(!extrafolder.isDirectory()){
+            extrafolder.mkdirs();
+        }
         if (!hiddenfolder.isDirectory()) {
             hiddenfolder.mkdirs();//create storage directories, if they don't exist
         }
@@ -133,6 +171,12 @@ public class Main2Activity extends AppCompatActivity implements ActivityCompat.O
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
     }
+
+
+        void request_permission(){
+                    ActivityCompat.requestPermissions(Main2Activity.this,
+                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},0);
+            }
 
 
     @Override
@@ -155,8 +199,44 @@ public class Main2Activity extends AppCompatActivity implements ActivityCompat.O
             dialog_passwordchange();
             return true;
         }
+        else if (id==R.id.video){
+            mRewardedVideoAd.loadAd(getString(R.string.ad_unit_id), new AdRequest.Builder().build());
+
+            mRewardedVideoAd.setRewardedVideoAdListener(new RewardedVideoAdListener() {
+                @Override
+                public void onRewarded(RewardItem rewardItem) {
+                }
+
+                @Override
+                public void onRewardedVideoAdLoaded() {
+                     showRewardedVideo();
+                }
+
+                @Override
+                public void onRewardedVideoAdOpened() {
+                      }
+
+                @Override
+                public void onRewardedVideoStarted() {
+                   }
+
+                @Override
+                public void onRewardedVideoAdClosed() {
+                     }
+
+                @Override
+                public void onRewardedVideoAdLeftApplication() {
+                    }
+
+                @Override
+                public void onRewardedVideoAdFailedToLoad(int i) {
+                }
+            });
+
+        }
         else if(id==R.id.feedback)
         {
+            adload();
             Intent i=new Intent(this,Main4Activity.class);
             startActivity(i);
             return true;
@@ -178,6 +258,7 @@ public class Main2Activity extends AppCompatActivity implements ActivityCompat.O
             }
         }
         else if(id==R.id.invite){
+            adload();
             Intent sendIntent = new Intent();
             sendIntent.setAction(Intent.ACTION_SEND);
             sendIntent.putExtra(Intent.EXTRA_TEXT,
@@ -187,6 +268,7 @@ public class Main2Activity extends AppCompatActivity implements ActivityCompat.O
             startActivity(sendIntent);
         }
         else if(id==R.id.exit){
+            adload();
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                 finishAffinity();
             }else{
@@ -195,6 +277,8 @@ public class Main2Activity extends AppCompatActivity implements ActivityCompat.O
         }
         return super.onOptionsItemSelected(item);
     }
+
+
 
     @Override
     protected Dialog onCreateDialog(int id) {
@@ -288,6 +372,7 @@ public class Main2Activity extends AppCompatActivity implements ActivityCompat.O
                             x=1;
                             if(selected.getParentFile()!=null)
                             ListDir(selected);
+
                         }
                     }
                 });
@@ -324,7 +409,16 @@ public class Main2Activity extends AppCompatActivity implements ActivityCompat.O
                         try {
                             // create new File objects
                             f = new File(hiddenDirectory+"/"+filename);//hidden file
-                            f1 = new File(filepath);                   //original file
+                            if(filepath.equals("")) {
+                                f1 = new File(force_retrieve.toString() + "/" + filename);
+                                Toast.makeText(Main2Activity.this,"Your file will get stored in Calculator_Media folder of Internal Storage",Toast.LENGTH_LONG).show();
+                            }
+                            else
+                                f1 = new File(filepath);                   //original file
+                            if (!force_retrieve.isDirectory())
+                                 force_retrieve.mkdirs();//create storage directories, if they don't exist
+                            if (!f1.getParentFile().isDirectory())
+                                f1.getParentFile().mkdirs();
                             //new DoThing().execute(f,f1);
                             Boolean bool=false;
                             bool = f.renameTo(f1);
@@ -436,20 +530,32 @@ public class Main2Activity extends AppCompatActivity implements ActivityCompat.O
                 else{
                     textFolder.setText("Hide folder : "+name);
                 }
-
                 curFolder=f;
                 File[] files = f.listFiles();
+
                 fileList.clear();
                 if(files!=null) {
+                    Arrays.sort(files, new Comparator<File>(){   //Sorting so that files modified recently appear on top
+                        public int compare(File f1, File f2)
+                        {
+                            return -Long.valueOf(f1.lastModified()).compareTo(f2.lastModified());
+                        }
+                    });
                     for (File file : files) {
                         if (!file.getPath().substring(file.getPath().lastIndexOf("/") + 1).startsWith("."))
                             fileList.add(file.getPath());
                     }
                 }
-        }
 
-        ArrayAdapter listadapter=new customlist(this, (ArrayList) fileList);
-        dialog_ListView.setAdapter(listadapter);
+        }
+        try {
+            if(dialog_ListView.getAdapter()==null)
+                dialog_ListView.setAdapter(listadapter);
+            else
+                listadapter.notifyDataSetChanged();
+        }catch(Exception e){
+            Log.w("tag",e+"");
+        }
     }
 
     void ListDir_1(String file1) {
@@ -463,9 +569,7 @@ public class Main2Activity extends AppCompatActivity implements ActivityCompat.O
             }
         }
         fileList.remove(file1);
-
-        ArrayAdapter listadapter=new customlist(this, (ArrayList) fileList);
-        listView.setAdapter(listadapter);
+        listadapterhide.notifyDataSetChanged();
     }
 
     void ListDir_2() {
@@ -477,8 +581,14 @@ public class Main2Activity extends AppCompatActivity implements ActivityCompat.O
                 fileList.add(filename);
             }
         }
-         ArrayAdapter listadapter=new customlist(this, (ArrayList) fileList);
-        listView.setAdapter(listadapter);
+        try {
+                 if(listView.getAdapter()==null)
+                    listView.setAdapter(listadapterhide);
+                else
+                    listadapterhide.notifyDataSetChanged();
+        }catch(Exception e){
+            Log.w("tag",e+"");
+        }
     }
 
 
@@ -487,17 +597,27 @@ public class Main2Activity extends AppCompatActivity implements ActivityCompat.O
         SharedPreferences.Editor editor=sharedpref.edit();
         editor.putString(name,path);
         editor.apply();
+       // Log.w("backup","backup");
+        new BackupManager(this).dataChanged();
 
     }
     private String RetrieveData(String name){
         SharedPreferences sharedpref=getSharedPreferences("userinfo",Context.MODE_PRIVATE);
         String path=sharedpref.getString(name,"");
         Log.i(TAG,"path:"+path);
+        SharedPreferences.Editor editor=sharedpref.edit();
+        editor.remove(name);
+        editor.apply();
+        new BackupManager(this).dataChanged();
         return path;
     }
    public void image(View view){
+       if (ContextCompat.checkSelfPermission(Main2Activity.this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+               != PackageManager.PERMISSION_GRANTED) {
+           request_permission();
+       }
        count++;
-       if(count%3==0){
+       if(count%2==0){
            adload();
        }
        Intent i=new Intent(this,Main3Activity.class);
@@ -583,6 +703,7 @@ public class Main2Activity extends AppCompatActivity implements ActivityCompat.O
                     editor.putString("passkey",editText1.getText().toString());
                     editor.apply();
                     dialog.dismiss();
+                    new BackupManager(Main2Activity.this).dataChanged();
                 }
 
 
@@ -614,7 +735,9 @@ public class Main2Activity extends AppCompatActivity implements ActivityCompat.O
     private String RetrieveData(){
         SharedPreferences sharedpref=getSharedPreferences("passworddata", Context.MODE_PRIVATE);
         return sharedpref.getString("passkey","");
+
     }
+
 
     public void adload(){
         AdRequest adRequest = new AdRequest.Builder().build();
@@ -637,5 +760,13 @@ public class Main2Activity extends AppCompatActivity implements ActivityCompat.O
             interstitial.show();
         }
     }
+
+    public void showRewardedVideo() {
+        if (mRewardedVideoAd.isLoaded()) {
+            mRewardedVideoAd.show();
+        }
+    }
+
+
 
 }

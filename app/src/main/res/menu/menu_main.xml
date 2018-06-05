@@ -1,13 +1,17 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-
     tools:context="com.calculator.hide.myapplication.MainActivity">
     <item
         android:id="@+id/settings"
-        android:orderInCategory="100"
+        android:orderInCategory="99"
         android:title="@string/Settings"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/video"
+        android:orderInCategory="100"
+        android:title="@string/video"/>
+
     <item
         android:id="@+id/feedback"
         android:orderInCategory="101"

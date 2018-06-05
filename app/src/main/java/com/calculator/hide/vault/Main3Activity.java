@@ -9,23 +9,30 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.FileProvider;
+import android.util.Log;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.ImageView;
+import android.widget.TextView;
+
 import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.NativeExpressAdView;
+import com.google.android.gms.ads.AdView;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class Main3Activity extends Activity implements AdapterView.OnItemClickListener {
 
-    static int count;
     private String directory= Environment.getExternalStorageDirectory().toString() +"/.data/.file/.drop/.hidden"+"/.ooooo";
+
+
+
 
     @Override
     public void onPause() {
@@ -61,17 +68,10 @@ public class Main3Activity extends Activity implements AdapterView.OnItemClickLi
         setContentView(R.layout.activity_main3);
         setGridAdapter(directory);
 
-    }
+        AdView mAdView = (AdView) findViewById(R.id.banner_AdView2);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
 
-    @Override
-    protected void onResume() {
-        count++;
-        if(count%2==0){
-            NativeExpressAdView adView = (NativeExpressAdView)findViewById(R.id.adView);
-            AdRequest request = new AdRequest.Builder().build();
-            adView.loadAd(request);
-        }
-        super.onResume();
     }
 
     private void setGridAdapter(String path) {
@@ -125,7 +125,13 @@ public class Main3Activity extends Activity implements AdapterView.OnItemClickLi
             MimeTypeMap mime = MimeTypeMap.getSingleton();
             String type = mime.getMimeTypeFromExtension(str);
 
-            intent.setDataAndType(Uri.fromFile(file), type);
+          //  intent.setDataAndType(Uri.fromFile(file), type);
+
+            Uri apkURI = FileProvider.getUriForFile(
+                        this,BuildConfig.APPLICATION_ID + ".provider", file);
+            intent.setDataAndType(apkURI, type);
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
             startActivity(Intent.createChooser(intent, "Select Appropriate app"));
 
         }

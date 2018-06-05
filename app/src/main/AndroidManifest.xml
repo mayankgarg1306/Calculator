@@ -8,10 +8,14 @@
 
     <!-- Include required permissions for Google Mobile Ads to run. -->
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
+        android:fullBackupContent="true"
+        android:backupAgent=".MyBackupAgent"
+        android:restoreAnyVersion="true"
         android:excludeFromRecents="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -20,6 +24,19 @@
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths"/>
+        </provider>
+
+
         <activity
             android:name="com.calculator.hide.vault.Splash_screen"
             android:excludeFromRecents="true">
@@ -43,11 +60,16 @@
                 <category android:name="android.intent.category.BROWSABLE" />
                 <!-- Accepts URIs that begin with "http://www.example.com/gizmos” -->
                 <data android:scheme="http"
-                    android:host="www.calculatorhidepro.com"
+                    android:host="www.secretcalculator.com"
                     android:path="/open" />
                 <!-- note that the leading "/" is required for pathPrefix-->
             </intent-filter>
         </activity>
+
+        <meta-data
+            android:name="com.google.android.backup.api_key"
+            android:value="AEdPqrEAAAAIsQTwIjStbMJ1PF1u2hzYsLsLJpOFgj-4MKrwZg" />
+
         <activity
             android:name="com.calculator.hide.vault.Main2Activity"
             android:label="Calculator Hide Pro"
@@ -63,7 +85,10 @@
         <!-- This meta-data tag is required to use Google Play Services. -->
         <meta-data
             android:name="com.google.android.gms.version"
-            android:value="@integer/google_play_services_version" />
+            android:value="@integer/google_play_services_version"
+            />
+        <!-- This meta-data tag is required to use Google Backup Services. -->
+
         <activity
             android:name="com.google.android.gms.ads.AdActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
